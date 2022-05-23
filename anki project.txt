@@ -1,0 +1,17 @@
+card simples
+    front
+    back
+    cardEase
+    interval
+    audio
+
+
+Deck config
+    Default starting ease 
+    default interval modifier
+    new card p/day
+    max revision p/day
+
+
+good: new interval = current interval x cardEase x 1; 
+again: new interval = x0,5 and cardEase = cardEase x 0,8. 

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { readFileSync, writeFileSync } from "fs";
-import { DictionaryService } from "../services/DictionaryService";
+import { CreateAnkiCardService } from "../services/CreateAnkiCardService";
 import * as googleTTS from "google-tts-api";
 
 async function saveFile(text: string) {
@@ -17,20 +17,20 @@ async function saveFile(text: string) {
 
 class AnkiController {
   async get(request: Request, response: Response): Promise<any> {
-    const service = new DictionaryService();
-    const { language, word } = request.params;
-    const wordMeaning = await service.get(word, language);
+    const service = new CreateAnkiCardService();
+    const { word } = request.params;
+    const wordMeaning = await service.execute(word);
 
     return response.json(wordMeaning);
   }
 
   async randomWord(request: Request, response: Response): Promise<any> {
-    const service = new DictionaryService();
+    const service = new CreateAnkiCardService();
     const file = readFileSync(`${__dirname}/englishWords.txt`, "utf-8");
     const lines = file.split("\n");
     const word = lines[Math.floor(Math.random() * lines.length)];
 
-    const wordMeaning = await service.get(word);
+    const wordMeaning = await service.execute(word);
     await saveFile(word);
     return response.json(wordMeaning);
   }
